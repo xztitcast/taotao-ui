@@ -1,0 +1,92 @@
+<template>
+  <el-dialog
+    :title="!dataForm.id ? '新增' : '修改'"
+    :close-on-click-modal="false"
+    :visible.sync="visible">
+    <el-form :model="dataForm" :rules="dataRule" ref="dataForm" @keyup.enter.native="dataFormSubmitHandle()" label-width="120px">
+      <el-form-item label="类目名称" prop="name">
+        <el-input v-model="dataForm.name" :maxlength="20" placeholder="请输入类目标题"></el-input>
+      </el-form-item>
+      <el-form-item label="类目标签" prop="name">
+        <el-input v-model="dataForm.label" :maxlength="10" placeholder="类目标签释义: 比如类目名称是活动页，那么标签就是'链接地址',具体由产品定"></el-input>
+      </el-form-item>
+    </el-form>
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="visible = false" icon="el-icon-close">取消</el-button>
+      <el-button @click="dataFormSubmitHandle()" type="primary" icon="el-icon-check">确定</el-button>
+    </span>
+  </el-dialog>
+</template>
+<script>
+  import debounce from 'lodash/debounce'
+  export default {
+    data() {
+      return {
+        visible: false,
+        dataForm: {
+          id: null,
+          name: '',
+          label: '',
+        },
+        dataRule: {
+          name: [
+            { required: true, message: this.$t('validate.required'), trigger: 'blur' }
+          ],
+          label: [
+            { required: true, message: this.$t('validate.required'), trigger: 'blur' }
+          ]
+        }
+      }
+    },
+    methods: {
+      init () {
+        this.visible = true
+        this.$nextTick(() => {
+          this.$refs['dataForm'].resetFields()
+          if (this.dataForm.id) {
+            this.getInfo()
+          }
+        })
+      },
+      getInfo(){
+        this.$http.get(`/sys/ad/category/info/${this.dataForm.id}`).then(({data}) => {
+          if(data && data.code === 0){
+            this.dataForm = {
+              ...this.dataForm,
+              ...data.result
+            }
+          }else {
+            this.$message.error(data.msg)
+          }
+        })
+      },
+      // 表单提交
+      dataFormSubmitHandle: debounce(function() {
+        this.$refs['dataForm'].validate((valid) => {
+          if(valid){
+            this.$http.post(`/sys/ad/category/${this.dataForm.id ? 'update' : 'save'}`,{
+              ...this.dataForm
+            }).then(({data}) => {
+              if(data && data.code === 0){
+                this.$message({
+                  message: this.$t('prompt.success'),
+                  type: 'success',
+                  duration: 500,
+                  onClose: () => {
+                    this.visible = false
+                    this.$emit('refreshDataList')
+                  }
+                })
+              }else{
+                this.$message.error(data.msg)
+              }
+            })
+          }
+        })
+      },1000, { 'leading': true, 'trailing': false })
+    }
+  }
+</script>
+<style>
+    
+</style>
