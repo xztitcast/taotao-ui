@@ -70,7 +70,7 @@ export default {
         if(data && data.code === 0){
           this.menuList = data.result
         }else{
-          this.$message.error(data.msg)
+          this.$message.error(data.message)
         }
       }).catch(() => {})
     },
@@ -84,7 +84,7 @@ export default {
           }
           this.dataForm.menuIdList.forEach(item => this.$refs.menuListTree.setChecked(item, true))
         }else{
-          this.$message.error(data.msg)
+          this.$message.error(data.message)
         }
       }).catch(() => {})
     },
@@ -110,7 +110,7 @@ export default {
                 }
               })
             }else{
-              this.$message.error(res.msg)
+              this.$message.error(data.message)
             }
           }).catch(() => {})
         }

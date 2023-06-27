@@ -79,7 +79,7 @@ import debounce from 'lodash/debounce'
               this.selectChangeHandle(this.dataForm.adContentIdList[index].adContentId, index)
             }
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -88,7 +88,7 @@ import debounce from 'lodash/debounce'
           if(data && data.code === 0){
             this.options = data.result || []
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -147,7 +147,7 @@ import debounce from 'lodash/debounce'
                   }
                 })
               }else{
-                this.$message.error(data.msg)
+                this.$message.error(data.message)
               }
             })
           }

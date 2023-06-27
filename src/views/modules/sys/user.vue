@@ -121,7 +121,7 @@ export default {
         if(data && data.code === 0){
           this.$message.success(this.$t('prompt.success'))
         }else{
-          this.$message.error(data.msg)
+          this.$message.error(data.message)
         }
         this.getDataList()
       })

@@ -153,7 +153,7 @@
               if(data && data.code === 0){
                 this.getDataList()
               }else{
-                this.$message.error(data.msg)
+                this.$message.error(data.message)
               }
             })
           })
@@ -171,7 +171,7 @@
               if(data && data.code === 0){
                 this.getDataList()
               }else{
-                this.$message.error(data.msg)
+                this.$message.error(data.message)
               }
             })
           })
@@ -189,7 +189,7 @@
               if(data && data.code === 0){
                 this.getDataList()
               }else{
-                this.$message.error(data.msg)
+                this.$message.error(data.message)
               }
             })
           }) 

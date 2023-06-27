@@ -104,7 +104,7 @@
           if(data && data.code === 0){
             this.navigatePahtList = data.result || []
           }else{
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -116,7 +116,7 @@
               ...data.result
             }
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -138,7 +138,7 @@
                   }
                 })
               }else{
-                this.$message.error(data.msg)
+                this.$message.error(data.message)
               }
             })
           }

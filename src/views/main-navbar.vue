@@ -89,7 +89,7 @@ export default {
             clearLoginInfo()
             this.$router.replace({ name: 'login' })
           }else{
-            this.$message.error(res.msg)
+            this.$message.error(data.message)
           }
         }).catch(() => {})
       }).catch(() => {})

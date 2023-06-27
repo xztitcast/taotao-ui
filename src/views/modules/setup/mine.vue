@@ -203,7 +203,7 @@
               ...data.result
             }
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -215,7 +215,7 @@
           if(data && data.code === 0){
             this.minArealist = data.result || []
           }else{
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -265,7 +265,7 @@
             this.visible = false
             this.refresh()
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -281,7 +281,7 @@
           if(data && data.code === 0){
             this.refresh()
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -295,7 +295,7 @@
             this.getAreaList()
             this.maskbox = false
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -312,7 +312,7 @@
             this.dataModuleForm.icon = data.result.icon
             this.dataModuleForm.url = data.result.url
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -340,7 +340,7 @@
               }
             })
           }else{
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       }

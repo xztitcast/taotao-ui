@@ -88,7 +88,7 @@ export default {
               }
             })
           }else {
-            this.$message.error(res.msg)
+            this.$message.error(data.message)
           }
         }).catch(() => {})
       })

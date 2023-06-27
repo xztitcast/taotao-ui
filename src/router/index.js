@@ -64,7 +64,7 @@ router.beforeEach((to, from, next) => {
       fnAddDynamicMenuRoutes(window.SITE_CONFIG['menuList'])
       next({ ...to, replace: true })
     }else {
-      Vue.prototype.$message.error(res.msg)
+      Vue.prototype.$message.error(data.message)
       return next({ name: 'login' })
     }
   }).catch(() => {

@@ -53,7 +53,7 @@
             if(data && data.code === 0){
               this.previewList = data.result || []
             }else {
-              this.$message.error(data.msg)
+              this.$message.error(data.message)
             }
           })
         })

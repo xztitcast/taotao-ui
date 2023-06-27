@@ -102,19 +102,20 @@ export default {
               this.$router.replace({ name: 'home' })
             }else {
               this.getCaptcha()
-              this.$message.error(data.msg)
+              this.$message.error(data.message)
             }
           }).catch(() => {})*/
-          var param = this.dataForm
-          var time = new Date().getTime()
-          param.password = encrypt(this.dataForm.password.concat(time))
+          var param = { username: this.dataForm.username,uuid: this.dataForm.uuid, captcha: this.dataForm.captcha}
+          var uuid = getUUID()
+          var slat = uuid.substring(uuid.lastIndexOf("-") + 1)
+          param.password = encrypt(insertStr(slat, 6, this.dataForm.password))
           this.$http.post('/sys/login', param, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(({ data }) => {
             if(data && data.code === 0){
               Cookies.set('token', data.result)
               this.$router.replace({ name: 'home' })
             }else {
               this.getCaptcha()
-              this.$message.error(data.msg)
+              this.$message.error(data.message)
             }
           }).catch(() => {})
         }

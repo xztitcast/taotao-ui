@@ -85,7 +85,7 @@ export default {
           this.$store.state.user.superAdmin = data.result.superAdmin
           this.$store.state.user.tisid = data.result.tisid
         }else{
-          this.$message.error(res.msg)
+          this.$message.error(data.message)
         }
       }).catch(() => {})
     }

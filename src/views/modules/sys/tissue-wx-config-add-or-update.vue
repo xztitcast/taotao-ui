@@ -92,7 +92,7 @@ import { runInThisContext } from 'vm'
               ...data.result
             }
           }else {
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -120,7 +120,7 @@ import { runInThisContext } from 'vm'
                   }
                 })
               }else{
-                this.$message.error(data.msg)
+                this.$message.error(data.message)
               }
             })
           }

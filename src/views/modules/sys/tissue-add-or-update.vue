@@ -161,7 +161,7 @@
           if(data && data.code === 0){
             this.regionTreeList = data.result
           }else{
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -171,7 +171,7 @@
           if(data && data.code === 0){
             this.userList = treeDataTranslate(data.result)
           }else{
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         }).catch(() => {})
       },
@@ -191,7 +191,7 @@
             this.dataForm.selectKeys = [data.result.pid, data.result.cid, data.result.areaId]
             this.dataForm.userIdList = data.result.userIdList.forEach(element => this.$refs.userListTree.setChecked(element, true));
           }else{
-            this.$message.error(data.msg)
+            this.$message.error(data.message)
           }
         })
       },
@@ -230,7 +230,7 @@
                   }
                 })
               }else{
-                this.$message.error(data.msg)
+                this.$message.error(data.message)
               }
             })
           }

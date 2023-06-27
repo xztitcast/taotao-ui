@@ -1,5 +1,6 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
+import store from '@/store'
 import qs from 'qs'
 import { clearLoginInfo, getSSID, getTisid } from '@/utils'
 import isPlainObject from 'lodash/isPlainObject'
@@ -55,8 +56,8 @@ http.interceptors.request.use(config => {
 http.interceptors.response.use(response => {
   if (response.data && response.data.code === 401) {
     clearLoginInfo()
-    this.$router.replace({ name: 'login' })
-    return Promise.reject(response.data.msg)
+    router.replace({ name: 'login' })
+    return Promise.reject(response.data.message)
   }
   return response
 }, error => {
