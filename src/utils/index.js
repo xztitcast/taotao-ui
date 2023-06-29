@@ -101,7 +101,6 @@ export function dateFormat (data, formatStr = "YYYY-DD-MM HH:mm:ss") {
 export function insertStr(s, index, insert) {
   var arr = s.split('')
   arr.splice(index, 0, insert)
-  console.log(arr.join(''))
   return arr.join('')
 }
 

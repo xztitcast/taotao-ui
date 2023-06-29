@@ -109,7 +109,7 @@ export default {
           var uuid = getUUID()
           var slat = uuid.substring(uuid.lastIndexOf("-") + 1)
           param.password = encrypt(insertStr(slat, 6, this.dataForm.password))
-          this.$http.post('/sys/login', param, {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(({ data }) => {
+          this.$http.post('/sys/login', param, { headers: {'Content-Type': 'application/x-www-form-urlencoded'} }).then(({ data }) => {
             if(data && data.code === 0){
               Cookies.set('token', data.result)
               this.$router.replace({ name: 'home' })
