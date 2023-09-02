@@ -55,6 +55,7 @@ t.updatePassword.newPassword = '新密码'
 t.updatePassword.confirmPassword = '确认密码'
 t.updatePassword.validate = {}
 t.updatePassword.validate.confirmPassword = '确认密码与新密码输入不一致'
+t.updatePassword.validate.passwordStrength = '请输入大写小字母、数字或特殊字符'
 
 t.contentTabs = {}
 t.contentTabs.closeCurrent = '关闭当前标签页'

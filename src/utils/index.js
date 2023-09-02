@@ -188,7 +188,7 @@ export function doEncrypt(text) {
  * @returns 
  */
 export function randomStr(size){
-  var str = "1234567890ABCDEFGHIGKLMNOPQRSTUVWSYZabcdefghijklmnopqrstuvwsyz-/()$&@?!~<>€£¥[]{}#%^*+="
+  var str = "1234567890ABCDEFGHIGKLMNOPQRSTUVWSYZabcdefghijklmnopqrstuvwsyz$&@?!~#%^*+="
   var text = ''
   for(var i = 0; i < size; i++){
     text += str.charAt(Math.floor(Math.random() * str.length));

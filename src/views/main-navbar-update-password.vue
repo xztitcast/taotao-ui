@@ -10,13 +10,13 @@
         <span>{{ $store.state.user.name }}</span>
       </el-form-item>
       <el-form-item prop="password" :label="$t('updatePassword.password')">
-        <el-input v-model="dataForm.password" type="password" :placeholder="$t('updatePassword.password')"></el-input>
+        <el-input v-model="dataForm.password" type="password" :placeholder="$t('updatePassword.password')" show-password></el-input>
       </el-form-item>
       <el-form-item prop="newPassword" :label="$t('updatePassword.newPassword')">
-        <el-input v-model="dataForm.newPassword" type="password" :placeholder="$t('updatePassword.newPassword')"></el-input>
+        <el-input v-model="dataForm.newPassword" type="password" :placeholder="$t('updatePassword.newPassword')" show-password></el-input>
       </el-form-item>
       <el-form-item prop="confirmPassword" :label="$t('updatePassword.confirmPassword')">
-        <el-input v-model="dataForm.confirmPassword" type="password" :placeholder="$t('updatePassword.confirmPassword')"></el-input>
+        <el-input v-model="dataForm.confirmPassword" type="password" :placeholder="$t('updatePassword.confirmPassword')" show-password></el-input>
       </el-form-item>
     </el-form>
     <template slot="footer">
@@ -42,6 +42,12 @@ export default {
   },
   computed: {
     dataRule () {
+      var validatePasswordStrength = (rule, value, callback) => {
+        if (!/^.*(?=.{8,})(?=.*\d)(?=.*[A-Z])(?=.*[a-z]).*$/.test(value)) {
+          return callback(new Error(this.$t('updatePassword.validate.passwordStrength')))
+        }
+        callback()
+      }
       var validateConfirmPassword = (rule, value, callback) => {
         if (this.dataForm.newPassword !== value) {
           return callback(new Error(this.$t('updatePassword.validate.confirmPassword')))
@@ -53,10 +59,12 @@ export default {
           { required: true, message: this.$t('validate.required'), trigger: 'blur' }
         ],
         newPassword: [
-          { required: true, message: this.$t('validate.required'), trigger: 'blur' }
+          { required: true, message: this.$t('validate.required'), trigger: 'blur' },
+          { validator: validatePasswordStrength, trigger: 'blur' }
         ],
         confirmPassword: [
           { required: true, message: this.$t('validate.required'), trigger: 'blur' },
+          { validator: validatePasswordStrength, trigger: 'blur' },
           { validator: validateConfirmPassword, trigger: 'blur' }
         ]
       }
