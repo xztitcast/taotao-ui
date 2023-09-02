@@ -28,7 +28,7 @@
 
 <script>
 import debounce from 'lodash/debounce'
-import { clearLoginInfo } from '@/utils'
+import { clearLoginInfo, doEncrypt } from '@/utils'
 export default {
   data () {
     return {
@@ -75,7 +75,9 @@ export default {
         if (!valid) {
           return false
         }
-        this.$http.put('/sys/user/password', this.dataForm).then(({data}) => {
+        var password = doEncrypt(this.dataForm.password)
+        var newPassword = doEncrypt(this.dataForm.newPassword)
+        this.$http.put('/sys/user/password', {password, newPassword}).then(({data}) => {
           if(data && data.code === 0){
             this.$message({
               message: this.$t('prompt.success'),
@@ -92,7 +94,7 @@ export default {
           }
         }).catch(() => {})
       })
-    }, 1000, { 'leading': true, 'trailing': false })
+    }, 3000, { 'leading': true, 'trailing': false })
   }
 }
 </script>

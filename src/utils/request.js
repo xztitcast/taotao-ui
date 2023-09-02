@@ -1,8 +1,7 @@
 import axios from 'axios'
 import Cookies from 'js-cookie'
-import store from '@/store'
 import qs from 'qs'
-import { clearLoginInfo, getSSID, getTisid } from '@/utils'
+import { clearLoginInfo } from '@/utils'
 import isPlainObject from 'lodash/isPlainObject'
 
 const baseURL = process.env.NODE_ENV === 'production' ? window.SITE_CONFIG['apiURL'] : "/"
@@ -17,9 +16,7 @@ const http = axios.create({
  */
 http.interceptors.request.use(config => {
   config.headers['Accept-Language'] = Cookies.get('language') || 'zh-CN'
-  config.headers['tisid'] = getTisid()
   config.headers['token'] = Cookies.get('token') || ''
-  config.headers['tokenssid'] = getSSID() || ''
   
   // 默认参数
   var defaults = {}

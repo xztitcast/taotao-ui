@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 import store from '@/store'
 import moment from 'moment'
 import CryptoJS from 'crypto-js'
+import { sm2 } from 'sm-crypto'
 
 /**
  * 权限
@@ -130,57 +131,31 @@ export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
   return res
 }
 
-const testJSON = function readFile(){
+const encipher = function readFile() {
   const xhr = new XMLHttpRequest()
   const okStatus = document.location.protocol === 'file:' ? 0 : 200
-  xhr.open('GET', 'test.json', false)
+  xhr.open('GET', 'encipher.txt', false)
   xhr.overrideMimeType('text/html;charset=utf-8')// 默认为utf-8
   xhr.send(null)
   return xhr.status === okStatus ? xhr.responseText : null
 }()
 
-const defaultJSON = function readFile(){
-  const xhr = new XMLHttpRequest()
-  const okStatus = document.location.protocol === 'file:' ? 0 : 200
-  xhr.open('GET', 'default.json', false)
-  xhr.overrideMimeType('text/html;charset=utf-8')// 默认为utf-8
-  xhr.send(null)
-  return xhr.status === okStatus ? xhr.responseText : null
-}()
-
-const testObject = JSON.parse(testJSON)
-const defaultObjet = JSON.parse(defaultJSON)
-
-/**
- * AES加密
- * @param {*} data 
- */
- const defaultKey = CryptoJS.enc.Utf8.parse(defaultObjet.key)
- const defaultIv = CryptoJS.enc.Utf8.parse(defaultObjet.iv)
- export function encrypt(data) {
-  var srcs = CryptoJS.enc.Utf8.parse(data)
-  const cipher = CryptoJS.AES.encrypt(srcs, defaultKey, {
+export function doEncrypt(text) {
+  //let keyPair = sm2.generateKeyPairHex()
+  //var publicKey = keyPair.publicKey
+  //var privateKey = keyPair.privateKey
+  //console.log(publicKey)
+  //console.log(privateKey)
+  let source = text.concat(".", new Date().getTime())
+  let aesKey = randomStr(16)
+  let iv = randomStr(16)
+  const cipher = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(source), CryptoJS.enc.Utf8.parse(aesKey), {
     mode: CryptoJS.mode.CBC,
     padding: CryptoJS.pad.Pkcs7,
-    iv: defaultIv,
+    iv: CryptoJS.enc.Utf8.parse(iv)
   })
-  return cipher.toString()
-}
-
-/**
- * AES加密
- * @param {*} data 
- */
-const testKey = CryptoJS.enc.Utf8.parse(testObject.key)
-const testIv = CryptoJS.enc.Utf8.parse(testObject.iv)
-export function AESEncrypt(data) {
-  var srcs = CryptoJS.enc.Utf8.parse(data)
-  const cipher = CryptoJS.AES.encrypt(srcs, testKey, {
-    mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
-    iv: testIv,
-  })
-  return cipher.toString()
+  let json = {aesKey, iv, "binary": cipher.toString()}
+  return sm2.doEncrypt(JSON.stringify(json), encipher)
 }
 
  /**

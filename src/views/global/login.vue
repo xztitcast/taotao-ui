@@ -55,7 +55,7 @@
 <script>
 import Cookies from 'js-cookie'
 import debounce from 'lodash/debounce'
-import { getUUID, encrypt, insertStr } from '@/utils'
+import { getUUID, doEncrypt } from '@/utils'
 export default {
   data () {
     return {
@@ -105,10 +105,8 @@ export default {
               this.$message.error(data.message)
             }
           }).catch(() => {})*/
-          var param = { username: this.dataForm.username,uuid: this.dataForm.uuid, captcha: this.dataForm.captcha}
-          var uuid = getUUID()
-          var slat = uuid.substring(uuid.lastIndexOf("-") + 1)
-          param.password = encrypt(insertStr(slat, 6, this.dataForm.password))
+          var password = doEncrypt(this.dataForm.password)
+          var param = { username: this.dataForm.username,uuid: this.dataForm.uuid, captcha: this.dataForm.captcha, password }
           this.$http.post('/sys/login', param, { headers: {'Content-Type': 'application/x-www-form-urlencoded'} }).then(({ data }) => {
             if(data && data.code === 0){
               Cookies.set('token', data.result)
@@ -120,7 +118,7 @@ export default {
           }).catch(() => {})
         }
       })
-    }, 1000, { 'leading': true, 'trailing': false })
+    }, 3000, { 'leading': true, 'trailing': false })
   }
 }
 </script>

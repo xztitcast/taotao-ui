@@ -32,6 +32,7 @@
     "sass-loader": "^9.0.2",
     "save": "^2.9.0",
     "screenfull": "^4.2.1",
+    "sm-crypto": "^0.3.12",
     "svg-sprite-loader": "^5.0.0",
     "swiper": "^9.1.0",
     "uuid": "^9.0.0",
