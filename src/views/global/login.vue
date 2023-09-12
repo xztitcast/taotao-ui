@@ -40,6 +40,7 @@
               <el-button type="primary" @click="dataFormSubmitHandle()" class="w-percent-100">{{ $t('login.title') }}</el-button>
             </el-form-item>
           </el-form>
+          <Verify @success="successHandle" :mode="'pop'" :captchaType="getCaptchaType" :imgSize="{ width: '430px', height: '235px' }" ref="verify"></Verify>
         </div>
         <div class="login-footer">
           <p>
@@ -56,6 +57,7 @@
 import Cookies from 'js-cookie'
 import debounce from 'lodash/debounce'
 import { getUUID, doEncrypt } from '@/utils'
+import Verify from "@/components/Verifition/Verify";
 export default {
   data () {
     return {
@@ -83,6 +85,9 @@ export default {
       }
     }
   },
+  components: {
+    Verify
+  },
   created () {
     this.getCaptcha()
   },
@@ -92,11 +97,29 @@ export default {
       this.dataForm.uuid = getUUID()
       this.captchaPath = `${window.SITE_CONFIG['apiURL']}/sys/captcha.jpg?uuid=${this.dataForm.uuid}`
     },
+    successHandle(param) {
+      param.username = this.dataForm.username
+      param.password = doEncrypt(this.dataForm.password)
+      param.uuid = this.dataForm.uuid
+      param.captcha = this.dataForm.captcha
+      this.$http.post('/sys/login', param, { headers: {'Content-Type': 'application/x-www-form-urlencoded'}}).then(({ data }) => {
+        if(data && data.code === 0){
+          Cookies.set('token', data.result)
+          this.$router.replace({ name: 'home' })
+        }else {
+          this.getCaptcha()
+          this.$message.error(data.message)
+        }
+      }).catch(() => {})
+    },
     // 表单提交
     dataFormSubmitHandle: debounce(function () {
       this.$refs['dataForm'].validate((valid) => {
-        if (valid) {
-          /*this.$http.post('/sys/login', this.dataForm).then(({ data }) => { //application/json格式请求
+        if(valid) {
+          this.$refs.verify.show();
+        }
+        /*if (valid) {
+          this.$http.post('/sys/login', this.dataForm).then(({ data }) => { //application/json格式请求
             if(data && data.code === 0){
               Cookies.set('token', data.result)
               this.$router.replace({ name: 'home' })
@@ -104,7 +127,7 @@ export default {
               this.getCaptcha()
               this.$message.error(data.message)
             }
-          }).catch(() => {})*/
+          }).catch(() => {})
           var password = doEncrypt(this.dataForm.password)
           var param = { username: this.dataForm.username,uuid: this.dataForm.uuid, captcha: this.dataForm.captcha, password }
           this.$http.post('/sys/login', param, { headers: {'Content-Type': 'application/x-www-form-urlencoded'} }).then(({ data }) => {
@@ -116,7 +139,7 @@ export default {
               this.$message.error(data.message)
             }
           }).catch(() => {})
-        }
+        }*/
       })
     }, 3000, { 'leading': true, 'trailing': false })
   }
