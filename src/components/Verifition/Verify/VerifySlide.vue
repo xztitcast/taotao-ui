@@ -314,7 +314,7 @@ export default {
             : JSON.stringify({ x: moveLeftDistance, y: 5.0 }),
           token: this.backToken,
         };
-        this.$http.post('/dynamic/captcha/check', dataForm).then(({data}) => {
+        this.$http.post('/sys/dynamic/captcha/check', dataForm).then(({data}) => {
           if (data.repCode == "0000") {
             this.moveBlockBackgroundColor = "#5cb85c";
             this.leftBarBorderColor = "#5cb85c";
@@ -388,7 +388,7 @@ export default {
 
     // 请求背景图片和验证图片
     getPictrue() {
-      this.$http.post('/dynamic/captcha/get', {
+      this.$http.post('/sys/dynamic/captcha/get', {
         captchaType: this.captchaType,
         clientUid: localStorage.getItem("slider"),
         ts: Date.now(), // 现在的时间戳

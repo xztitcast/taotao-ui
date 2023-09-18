@@ -131,6 +131,43 @@ export function treeDataTranslate (data, id = 'id', pid = 'parentId') {
   return res
 }
 
+export function resetSize(vm) {
+  var img_width, img_height, bar_width, bar_height;	//图片的宽度、高度，移动条的宽度、高度
+
+  var parentWidth = vm.$el.parentNode.offsetWidth || window.offsetWidth
+  var parentHeight = vm.$el.parentNode.offsetHeight || window.offsetHeight
+
+  if (vm.imgSize.width.indexOf('%') != -1) {
+      img_width = parseInt(this.imgSize.width) / 100 * parentWidth + 'px'
+  } else {
+      img_width = this.imgSize.width;
+  }
+
+  if (vm.imgSize.height.indexOf('%') != -1) {
+      img_height = parseInt(this.imgSize.height) / 100 * parentHeight + 'px'
+  } else {
+      img_height = this.imgSize.height
+  }
+
+  if (vm.barSize.width.indexOf('%') != -1) {
+      bar_width = parseInt(this.barSize.width) / 100 * parentWidth + 'px'
+  } else {
+      bar_width = this.barSize.width
+  }
+
+  if (vm.barSize.height.indexOf('%') != -1) {
+      bar_height = parseInt(this.barSize.height) / 100 * parentHeight + 'px'
+  } else {
+      bar_height = this.barSize.height
+  }
+
+  return { imgWidth: img_width, imgHeight: img_height, barWidth: bar_width, barHeight: bar_height }
+}
+
+export const _code_chars = [1, 2, 3, 4, 5, 6, 7, 8, 9, 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+export const _code_color1 = ['#fffff0', '#f0ffff', '#f0fff0', '#fff0f0']
+export const _code_color2 = ['#FF0033', '#006699', '#993366', '#FF9900', '#66CC66', '#FF33CC']
+
 const encipher = function readFile() {
   const xhr = new XMLHttpRequest()
   const okStatus = document.location.protocol === 'file:' ? 0 : 200
@@ -158,29 +195,16 @@ export function doEncrypt(text) {
   return sm2.doEncrypt(JSON.stringify(json), encipher)
 }
 
- /**
-  * 标识符
-  * @returns 
-  */
-  export function getSSID() {
-    var nonce = getUUID().replaceAll("-", "");
-    var time = new Date().getTime()
-    var data = {"deviceId": testObject.deviceId, "nonce": nonce, "timestamp": time}
-    var word = AESEncrypt(JSON.stringify(data))
-    return testObject.type.concat(word)
-  }
-
-  /**
-  * 标识符
-  * @returns 
-  */
-   export function ssid() {
-    var nonce = getUUID().replaceAll("-", "");
-    var time = new Date().getTime()
-    var data = {"deviceId": defaultObjet.deviceId, "nonce": nonce, "timestamp": time}
-    var word = encrypt(JSON.stringify(data))
-    return defaultObjet.type.concat(word)
-  }
+/**
+ * @word 要加密的内容
+ * @keyWord String  服务器随机返回的关键字
+ *  */
+ export function aesEncrypt(word, keyWord = "XwKsGlMcdPMEhR1B") {
+  var key = CryptoJS.enc.Utf8.parse(keyWord);
+  var srcs = CryptoJS.enc.Utf8.parse(word);
+  var encrypted = CryptoJS.AES.encrypt(srcs, key, { mode: CryptoJS.mode.ECB, padding: CryptoJS.pad.Pkcs7 });
+  return encrypted.toString();
+}
 
 /**
  * 生成随机字符串

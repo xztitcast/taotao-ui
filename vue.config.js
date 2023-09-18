@@ -16,7 +16,7 @@ module.exports = {
     open: true,
     port: 23456,
     proxy: {
-      '/sys': {
+      'sys': {
          target: 'http://localhost:8080'
          //target: 'http://localhost:8080/v1' 开发环境不走网关
       }

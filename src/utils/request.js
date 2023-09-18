@@ -1,6 +1,7 @@
-import axios from 'axios'
-import Cookies from 'js-cookie'
 import qs from 'qs'
+import axios from 'axios'
+import router from '@/router'
+import Cookies from 'js-cookie'
 import { clearLoginInfo } from '@/utils'
 import isPlainObject from 'lodash/isPlainObject'
 
@@ -51,7 +52,7 @@ http.interceptors.request.use(config => {
  * 响应拦截
  */
 http.interceptors.response.use(response => {
-  if (response.data && response.data.code === 401) {
+  if (response.data && response.data.code === 601 || response.data.code === 600) {
     clearLoginInfo()
     router.replace({ name: 'login' })
     return Promise.reject(response.data.message)

@@ -175,7 +175,7 @@ export default {
                 this.secretKey
               )
             : this.backToken + "---" + JSON.stringify(this.checkPosArr);
-          this.$http.post('/dynamic/captcha/check', {
+          this.$http.post('/sys/dynamic/captcha/check', {
             captchaType: this.captchaType,
             pointJson: this.secretKey
               ? aesEncrypt(JSON.stringify(this.checkPosArr), this.secretKey)
@@ -237,7 +237,7 @@ export default {
 
     // 请求背景图片和验证图片
     getPictrue() {
-      this.$http.post('/dynamic/captcha/get', {
+      this.$http.post('/sys/dynamic/captcha/get', {
         captchaType: this.captchaType,
         clientUid: localStorage.getItem("point"),
         ts: Date.now(), // 现在的时间戳

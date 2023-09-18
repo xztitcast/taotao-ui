@@ -71,6 +71,14 @@ export default {
     }
   },
   computed: {
+    getCaptchaType() {
+      var next = Math.floor((Math.random()*100)+1);
+      if(next <= 50) {
+        return 'blockPuzzle'
+      }else{
+        return 'clickWord'
+      }
+    },
     dataRule () {
       return {
         username: [
