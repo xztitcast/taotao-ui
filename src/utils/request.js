@@ -52,7 +52,7 @@ http.interceptors.request.use(config => {
  * 响应拦截
  */
 http.interceptors.response.use(response => {
-  if (response.data && response.data.code === 601 || response.data.code === 600) {
+  if (response.data && response.data.code === 401 || response.data.code === 600) {
     clearLoginInfo()
     router.replace({ name: 'login' })
     return Promise.reject(response.data.message)
